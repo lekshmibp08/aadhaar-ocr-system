@@ -5,6 +5,7 @@ import morgan from 'morgan'
 
 import { config } from "./config/config"
 import { errorHandler } from "./interface/middlewares/errorMiddleware" 
+import connectDB from "./infrastructure/database/mongodb"
 
 const app = express();
 const PORT = config.app.PORT || 4000;
@@ -29,6 +30,8 @@ app.get("/", (req, res) => {
 });
 
 app.use(errorHandler);
+
+connectDB();
 
 app.listen(PORT, () => {
   console.log(`Server Running on http://localhost:${PORT}`);
