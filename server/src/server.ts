@@ -4,8 +4,7 @@ import cookieParser from 'cookie-parser'
 import morgan from 'morgan'
 
 import { config } from "./config/config"
-
-
+import { errorHandler } from "./interface/middlewares/errorMiddleware" 
 
 const app = express();
 const PORT = config.app.PORT || 4000;
@@ -29,6 +28,7 @@ app.get("/", (req, res) => {
   res.send("API running...");
 });
 
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`Server Running on http://localhost:${PORT}`);
