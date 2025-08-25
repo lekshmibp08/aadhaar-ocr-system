@@ -1,10 +1,10 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { ExtractAadhaarDataUseCase } from "../../application/useCases/extractAadhaarDataUseCase";
 import { OCRService } from "../../infrastructure/services/ocrService";
 import fs from "fs/promises";
 
 export class AadhaarController {
-  static async extractData(req: Request, res: Response) {
+  static async extractData(req: Request, res: Response, next: NextFunction) {
     let frontImage: string | undefined;
     let backImage: string | undefined;
     try {
@@ -28,7 +28,7 @@ export class AadhaarController {
       const result = await useCase.execute(frontImage, backImage);
       res.json(result);
     } catch (error: any) {
-      res.status(500).json({ error: error.message });
+      next()
     } finally {
       console.log("frontImage: ", frontImage);
       if (frontImage) {
