@@ -5,6 +5,8 @@ import fs from "fs/promises";
 
 export class AadhaarController {
   static async extractData(req: Request, res: Response, next: NextFunction) {
+    console.log("REACHED");
+    
     let frontImage: string | undefined;
     let backImage: string | undefined;
     try {
