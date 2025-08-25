@@ -1,33 +1,28 @@
-import express from "express"
-import cors from 'cors'
-import cookieParser from 'cookie-parser'
-import morgan from 'morgan'
+import express from "express";
+import cors from "cors";
+import cookieParser from "cookie-parser";
+import morgan from "morgan";
 
-import { config } from "./config/config"
-import { errorHandler } from "./interface/middlewares/errorMiddleware" 
-import aadhaarRoutes from "./interface/routes/aadhaarRoutes"
+import { config } from "./config/config";
+import { errorHandler } from "./interface/middlewares/errorMiddleware";
+import aadhaarRoutes from "./interface/routes/aadhaarRoutes";
 
 const app = express();
 const PORT = config.app.PORT || 4000;
 const FRONT_END_URL = config.cors.CLIENT_URL;
 
 app.use(
-    cors({
-        origin: FRONT_END_URL,
-        allowedHeaders: config.cors.ALLOWED_HEADERS,
-        methods: config.cors.ALLOWED_METHODS,
-        credentials: config.cors.CREDENTIALS
-    })
+  cors({
+    origin: FRONT_END_URL,
+    allowedHeaders: config.cors.ALLOWED_HEADERS,
+    methods: config.cors.ALLOWED_METHODS,
+    credentials: config.cors.CREDENTIALS,
+  })
 );
 
 app.use(express.json());
 app.use(cookieParser());
-if (process.env.NODE_ENV === "production") {
-    app.use(morgan("combined"));
-} else {
-    app.use(morgan("dev"));
-}
-
+app.use(morgan("dev"));
 
 app.get("/", (req, res) => {
   res.send("API running...");
@@ -35,7 +30,6 @@ app.get("/", (req, res) => {
 app.use("/api/aadhaar", aadhaarRoutes);
 
 app.use(errorHandler);
-
 
 app.listen(PORT, () => {
   console.log(`Server Running on http://localhost:${PORT}`);
