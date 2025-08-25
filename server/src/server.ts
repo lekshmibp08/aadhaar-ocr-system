@@ -5,7 +5,7 @@ import morgan from 'morgan'
 
 import { config } from "./config/config"
 import { errorHandler } from "./interface/middlewares/errorMiddleware" 
-import connectDB from "./infrastructure/database/mongodb"
+import aadhaarRoutes from "./interface/routes/aadhaarRoutes"
 
 const app = express();
 const PORT = config.app.PORT || 4000;
@@ -28,10 +28,10 @@ app.use(morgan("dev"));
 app.get("/", (req, res) => {
   res.send("API running...");
 });
+app.use("/api/aadhaar", aadhaarRoutes);
 
 app.use(errorHandler);
 
-connectDB();
 
 app.listen(PORT, () => {
   console.log(`Server Running on http://localhost:${PORT}`);
