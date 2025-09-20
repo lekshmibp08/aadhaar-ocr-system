@@ -40,6 +40,14 @@ const AadhaarOCRApp = () => {
     setBackImage(null);
   };
 
+  const handleClearAll = () => {
+    setFrontImage(null);
+    setBackImage(null);
+    setOcrResults(null);
+    setError(null);
+    setLoading(false);
+  };
+
   const handleOCRProcess = async () => {
     if (!frontImage || !backImage) {
       setError("Please upload both front and back images of the Aadhaar card");
@@ -134,7 +142,7 @@ const AadhaarOCRApp = () => {
         )}
 
         {/* OCR Button */}
-        <div className="text-center mb-6">
+        <div className="text-center mb-6 flex flex-col sm:flex-row gap-4 justify-center">
           <OCRButton
             onClick={handleOCRProcess}
             loading={loading}
@@ -142,6 +150,15 @@ const AadhaarOCRApp = () => {
             className="w-full sm:w-auto"
           >
             {loading ? "Processing..." : "Extract Information"}
+          </OCRButton>
+
+          {/* Clear Button*/}
+          <OCRButton
+            onClick={handleClearAll}
+            disabled={loading}
+            variant="danger"
+          >
+            Clear All
           </OCRButton>
         </div>
 
